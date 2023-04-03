@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mostro_app/routing.dart';
+import 'routing.dart';
+import 'theme.dart';
 
 class MostroApp extends StatelessWidget {
   const MostroApp({super.key});
@@ -9,7 +10,7 @@ class MostroApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Mostro App',
       routerConfig: router,
-      theme: ThemeData.dark(),
+      theme: darkTheme,
       debugShowCheckedModeBanner: false,
     );
   }
