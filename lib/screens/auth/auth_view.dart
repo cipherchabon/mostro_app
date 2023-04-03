@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mostro_app/routing.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -70,7 +72,9 @@ class AuthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        context.goNamed(AppRoute.home.name);
+      },
       child: Text('Sign in'),
     );
   }
