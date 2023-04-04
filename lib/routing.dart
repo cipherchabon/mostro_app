@@ -172,6 +172,15 @@ class _ShellScaffoldState extends State<ShellScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Mostro'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.public),
+            onPressed: () {},
+          ),
+        ],
+      ),
       body: widget.child,
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: _onDestinationSelected,
