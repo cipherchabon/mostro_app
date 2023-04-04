@@ -30,8 +30,44 @@ class ChatView extends StatelessWidget {
             SizedBox(
               height: 16,
             ),
-            // paste icon
-            Icon(Icons.content_copy),
+            IconButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Center(
+                        child: Column(
+                          children: [
+                            Icon(Icons.check_circle_outline),
+                            Text(
+                              'Copiado al portapapeles',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      content: Text(
+                        'Abre tu wallet, paga la factura que acabas de copiar y vuelve para confirmar el pago',
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Ok'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              icon: Icon(Icons.content_copy),
+            ),
             SizedBox(
               height: 16,
             ),
