@@ -9,34 +9,47 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 56,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Mostro'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.public),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 56,
+            ),
+            Text('BTC    usd XX.XXX'),
+            SizedBox(
+              height: 56,
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('New Order'),
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('Search Order'),
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('Active Order'),
+            ),
+          ],
         ),
-        Text('BTC    usd XX.XXX'),
-        SizedBox(
-          height: 56,
-        ),
-        ElevatedButton(
-          onPressed: () {},
-          child: Text('New Order'),
-        ),
-        SizedBox(
-          height: 24,
-        ),
-        ElevatedButton(
-          onPressed: () {},
-          child: Text('Search Order'),
-        ),
-        SizedBox(
-          height: 24,
-        ),
-        ElevatedButton(
-          onPressed: () {},
-          child: Text('Active Order'),
-        ),
-      ],
+      ),
     );
   }
 }

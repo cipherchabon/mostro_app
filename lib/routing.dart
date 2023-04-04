@@ -6,6 +6,7 @@ import 'screens/chat/chat_view.dart';
 import 'screens/home/home_view.dart';
 import 'screens/notifications/notifications_view.dart';
 import 'screens/profile/profile_view.dart';
+import 'screens/search/order_detail_view.dart';
 import 'screens/search/search_view.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -15,6 +16,7 @@ enum AppRoute {
   auth('/auth'),
   home('/home'),
   search('/search'),
+  orderDetail('order-detail'),
   chat('/chat'),
   notifications('/notifications'),
   profile('/profile');
@@ -44,14 +46,20 @@ final router = GoRouter(
           },
         ),
         GoRoute(
-          path: AppRoute.search.path,
-          name: AppRoute.search.name,
-          pageBuilder: (context, state) {
-            return const NoTransitionPage(
-              child: SearchView(),
-            );
-          },
-        ),
+            path: AppRoute.search.path,
+            name: AppRoute.search.name,
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: SearchView(),
+              );
+            },
+            routes: [
+              GoRoute(
+                path: AppRoute.orderDetail.path,
+                name: AppRoute.orderDetail.name,
+                builder: (context, state) => const OrderDetailView(),
+              ),
+            ]),
         GoRoute(
           path: AppRoute.chat.path,
           name: AppRoute.chat.name,
@@ -172,15 +180,6 @@ class _ShellScaffoldState extends State<ShellScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mostro'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.public),
-            onPressed: () {},
-          ),
-        ],
-      ),
       body: widget.child,
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: _onDestinationSelected,
