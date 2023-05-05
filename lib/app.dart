@@ -10,7 +10,7 @@ class MostroApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Mostro App',
       routerConfig: router,
-      theme: darkTheme,
+      theme: theme,
       debugShowCheckedModeBanner: false,
     );
   }

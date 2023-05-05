@@ -1,44 +1,52 @@
 import 'package:flutter/material.dart';
 
-ThemeData darkTheme = ThemeData.dark().copyWith(
+const primaryColor = Color(0xFF673AB7);
+const secondaryColor = Color(0xFFFFFFFF);
+const accentColor = Color(0xFFFF9900);
+const primaryColorLight = Color(0xFFD1C4E9);
+const primaryColorDark = Color(0xFF512DA8);
+const accentColorContrast = Color(0xFF212121);
+const logoColor = Color(0xFF8CC63F);
+const backgroundColor = Color(0xFFF5F5F5);
+
+final theme = ThemeData.from(
   useMaterial3: true,
-  colorScheme: darkColorScheme,
-  navigationBarTheme: const NavigationBarThemeData(
-    height: 50,
-    labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: primaryColor,
   ),
 );
 
-const darkColorScheme = ColorScheme(
-  brightness: Brightness.dark,
-  primary: Color(0xFFA9C7FF),
-  onPrimary: Color(0xFF003063),
-  primaryContainer: Color(0xFF00468C),
-  onPrimaryContainer: Color(0xFFD6E3FF),
-  secondary: Colors.tealAccent,
-  onSecondary: Color(0xFF283141),
-  secondaryContainer: Color(0xFF3E4758),
-  onSecondaryContainer: Color(0xFFDAE2F9),
-  tertiary: Color(0xFFDCBCE1),
-  onTertiary: Color(0xFF3F2845),
-  tertiaryContainer: Color(0xFF563E5C),
-  onTertiaryContainer: Color(0xFFF9D8FD),
-  error: Color(0xFFFFB4AB),
-  errorContainer: Color(0xFF93000A),
-  onError: Color(0xFF690005),
-  onErrorContainer: Color(0xFFFFDAD6),
-  background: Color(0xFF1A1B1E),
-  onBackground: Color(0xFFE3E2E6),
-  surface: Color(0xFF1A1B1E),
-  onSurface: Color(0xFFE3E2E6),
-  surfaceVariant: Color(0xFF44474E),
-  onSurfaceVariant: Color(0xFFC4C6CF),
-  outline: Color(0xFF8E9099),
-  onInverseSurface: Color(0xFF1A1B1E),
-  inverseSurface: Color(0xFFE3E2E6),
-  inversePrimary: Color(0xFF005DB7),
-  shadow: Color(0xFF000000),
-  surfaceTint: Color(0xFFA9C7FF),
-  outlineVariant: Color(0xFF44474E),
-  scrim: Color(0xFF000000),
+const subHeaderTextStyle = TextStyle(
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w500,
+  fontSize: 20,
+  height: 1.1947,
+);
+
+const titleTextStyle = TextStyle(
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w400,
+  fontSize: 22,
+  height: 1.0861,
+);
+
+const quoteTextStyle = TextStyle(
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w400,
+  fontSize: 16,
+  height: 1.4933,
+);
+
+const largeBodyTextStyle = TextStyle(
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w400,
+  fontSize: 14,
+  height: 1.7067,
+);
+
+const buttonTextStyle = TextStyle(
+  fontFamily: 'Roboto',
+  fontWeight: FontWeight.w500,
+  fontSize: 14,
+  height: 1.7067,
 );
