@@ -50,3 +50,22 @@ const buttonTextStyle = TextStyle(
   fontSize: 14,
   height: 1.7067,
 );
+
+final filledButtonStyle = FilledButton.styleFrom(
+  padding: const EdgeInsets.symmetric(
+    horizontal: 36,
+  ),
+);
+
+final underlineTextButtonStyle = TextButton.styleFrom(
+  padding: const EdgeInsets.symmetric(
+    horizontal: 36,
+  ),
+  foregroundColor: accentColorContrast,
+  textStyle: const TextStyle(
+    fontFamily: 'Roboto',
+    fontWeight: FontWeight.w500,
+    fontSize: 14,
+    decoration: TextDecoration.underline,
+  ),
+);

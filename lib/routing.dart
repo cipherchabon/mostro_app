@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'screens/auth/auth_view.dart';
+import 'screens/auth/view/auth_view.dart';
 import 'screens/chat/chat_view.dart';
 import 'screens/home/home_view.dart';
 import 'screens/notifications/notifications_view.dart';
