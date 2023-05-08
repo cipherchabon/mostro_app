@@ -18,7 +18,7 @@ class _MostroAppState extends ConsumerState<MostroApp> {
     return MaterialApp.router(
       title: 'Mostro App',
       routerConfig: router,
-      theme: theme,
+      theme: darkTheme,
       debugShowCheckedModeBanner: false,
     );
   }

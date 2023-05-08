@@ -15,7 +15,7 @@ class CustomScaffold extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         body: AnnotatedRegion<SystemUiOverlayStyle>(
           value: const SystemUiOverlayStyle(
-            statusBarColor: primaryColor,
+            statusBarColor: logoColor,
             statusBarIconBrightness: Brightness.light,
           ),
           child: Padding(

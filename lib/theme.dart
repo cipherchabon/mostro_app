@@ -16,6 +16,13 @@ final theme = ThemeData.from(
   ),
 );
 
+final darkTheme = ThemeData.dark().copyWith(
+  useMaterial3: true,
+  colorScheme: ColorScheme.fromSeed(
+    seedColor: logoColor,
+  ),
+);
+
 const subHeaderTextStyle = TextStyle(
   fontFamily: 'Roboto',
   fontWeight: FontWeight.w500,
@@ -61,7 +68,6 @@ final underlineTextButtonStyle = TextButton.styleFrom(
   padding: const EdgeInsets.symmetric(
     horizontal: 36,
   ),
-  foregroundColor: accentColorContrast,
   textStyle: const TextStyle(
     fontFamily: 'Roboto',
     fontWeight: FontWeight.w500,
