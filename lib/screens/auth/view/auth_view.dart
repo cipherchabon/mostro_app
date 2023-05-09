@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../asset_paths/icon_paths.dart';
 import '../../../asset_paths/image_paths.dart';
-import '../../../theme.dart';
+import '../../../routing/routes.dart';
 import '../../../widgets/scaffold.dart';
 import '../controller/auth_controller.dart';
 import '../model/auth_state.dart';
 import '../model/form/auth_form.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends ConsumerWidget {
   const AuthScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(authControllerProvider, (prev, next) {
+      if (next.isSuccess) {
+        context.goNamed(AppRoute.home.name);
+      }
+    });
     return CustomScaffold(
       body: Column(
         children: [
@@ -122,7 +128,6 @@ class AuthButton extends ConsumerWidget {
       onPressed: state.form.isValid
           ? ref.read(authControllerProvider.notifier).onAuthButtonPressed
           : null,
-      style: filledButtonStyle,
       child: state.isSubmitting
           ? const SizedBox(
               height: 16,
@@ -144,7 +149,6 @@ class GenerateNewKeyButton extends ConsumerWidget {
     final state = ref.watch(authControllerProvider);
     return TextButton(
       onPressed: state.isSubmitting ? null : () {},
-      style: underlineTextButtonStyle,
       child: const Text('Generate a new key'),
     );
   }

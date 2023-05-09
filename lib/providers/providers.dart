@@ -1,11 +1,11 @@
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../routing/routing.dart';
+import '../routing/builder.dart';
 
 part 'providers.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 GoRouter router(RouterRef ref) {
-  return RouterBuilder().build();
+  return const RouterBuilder().build();
 }

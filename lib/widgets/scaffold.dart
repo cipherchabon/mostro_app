@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../theme.dart';
-
 class CustomScaffold extends StatelessWidget {
   final Widget body;
 
@@ -14,8 +12,8 @@ class CustomScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: const SystemUiOverlayStyle(
-            statusBarColor: logoColor,
+          value: SystemUiOverlayStyle(
+            statusBarColor: Theme.of(context).colorScheme.primary,
             statusBarIconBrightness: Brightness.light,
           ),
           child: Padding(

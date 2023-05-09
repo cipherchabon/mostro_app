@@ -15,6 +15,8 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class RouterBuilder {
+  const RouterBuilder();
+
   GoRouter build() => GoRouter(
         navigatorKey: _rootNavigatorKey,
         initialLocation: AppRoute.auth.path,
@@ -82,6 +84,12 @@ class RouterBuilder {
             path: AppRoute.auth.path,
             name: AppRoute.auth.name,
             builder: (context, state) => const AuthScreen(),
+            // redirect: (context, state) {
+            //   if (authState.isSuccess) {
+            //     return AppRoute.home.path;
+            //   }
+            //   return null;
+            // },
           ),
         ],
       );

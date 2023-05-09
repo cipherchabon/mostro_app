@@ -25,4 +25,5 @@ class AuthState with _$AuthState {
 
 extension AuthStateExtension on AuthState {
   bool get isSubmitting => this is _Submitting;
+  bool get isSuccess => this is _Success;
 }
