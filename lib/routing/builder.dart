@@ -19,6 +19,9 @@ class RouterBuilder {
   GoRouter build() => GoRouter(
         navigatorKey: _rootNavigatorKey,
         initialLocation: AppRoute.auth.path,
+        redirect: (context, state) {
+          return null;
+        },
         routes: [
           ShellRoute(
             navigatorKey: _shellNavigatorKey,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
-import '../../asset_paths/icon_paths.dart';
 import '../../widgets/gaps.dart';
+import 'components/bitcoin_price.dart';
+import 'components/filter_button.dart';
 import 'sell_order_tile.dart';
 
 class OrdersView extends StatelessWidget {
@@ -54,60 +54,36 @@ class SellingView extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            children: [
+            children: const [
               gapW8,
-              FilledButton.icon(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-                onPressed: () {},
-                icon: const Icon(Icons.filter_alt_outlined),
-                label: const Text(
-                  'Filter',
-                ),
-              ),
-              const Spacer(),
-              OutlinedButton.icon(
-                onPressed: null,
-                icon: SvgPicture.asset(
-                  currencyBitcoinIcon,
-                  colorFilter: ColorFilter.mode(
-                    Theme.of(context).colorScheme.primary,
-                    BlendMode.srcIn,
-                  ),
-                ),
-                label: const Text('usd 31.427'),
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-              ),
+              FilterButton(),
+              Spacer(),
+              BitcoinPriceWidget(),
               gapW8,
             ],
           ),
           gapH8,
-          const SellOrderTile(
-            fiatTicker: 'USD',
-            fiatAmount: 100,
-            premium: 1,
-          ),
-          const SellOrderTile(
-            fiatTicker: 'ARS',
-            fiatAmount: 10000,
-            premium: 3,
-          ),
-          const SellOrderTile(
-            fiatTicker: 'MXN',
-            fiatAmount: 7000,
-            premium: 2,
-          ),
+          Expanded(
+            child: ListView(
+              children: const [
+                SellOrderTile(
+                  fiatTicker: 'USD',
+                  fiatAmount: 100,
+                  premium: 1,
+                ),
+                SellOrderTile(
+                  fiatTicker: 'ARS',
+                  fiatAmount: 10000,
+                  premium: 3,
+                ),
+                SellOrderTile(
+                  fiatTicker: 'MXN',
+                  fiatAmount: 7000,
+                  premium: 2,
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
