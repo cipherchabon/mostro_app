@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../widgets/gaps.dart';
+import 'buy_order_form.dart';
 import 'components/bitcoin_price.dart';
 import 'components/filter_button.dart';
 import 'sell_order_tile.dart';
@@ -97,6 +98,21 @@ class BuyingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: const [
+                BitcoinPriceWidget(),
+              ],
+            ),
+            const BuyOrderForm(),
+          ],
+        ),
+      ),
+    );
   }
 }
