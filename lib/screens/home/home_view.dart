@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../asset_paths/image_paths.dart';
+import '../../widgets/scaffold.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({
@@ -9,43 +11,34 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mostro'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.public),
-            onPressed: () {},
-          ),
-        ],
-      ),
+    return CustomScaffold(
       body: Center(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 56,
             ),
-            Text('BTC    usd XX.XXX'),
-            SizedBox(
+            SvgPicture.asset(logo),
+            const SizedBox(
               height: 56,
             ),
             ElevatedButton(
               onPressed: () {},
-              child: Text('New Order'),
+              child: const Text('New Order'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             ElevatedButton(
               onPressed: () {},
-              child: Text('Search Order'),
+              child: const Text('Search Order'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             ElevatedButton(
               onPressed: () {},
-              child: Text('Active Order'),
+              child: const Text('Active Order'),
             ),
           ],
         ),

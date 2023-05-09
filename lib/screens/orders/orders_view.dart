@@ -1,10 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../routing/routes.dart';
 
-class SearchView extends StatelessWidget {
-  const SearchView({
+class OrdersView extends StatelessWidget {
+  const OrdersView({
     super.key,
   });
 

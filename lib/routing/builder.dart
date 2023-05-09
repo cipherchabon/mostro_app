@@ -5,9 +5,8 @@ import '../screens/auth/view/auth_view.dart';
 import '../screens/chat/chat_view.dart';
 import '../screens/home/home_view.dart';
 import '../screens/notifications/notifications_view.dart';
-import '../screens/profile/profile_view.dart';
-import '../screens/search/order_detail_view.dart';
-import '../screens/search/search_view.dart';
+import '../screens/orders/order_detail_view.dart';
+import '../screens/orders/orders_view.dart';
 import 'routes.dart';
 import 'shell_scaffold.dart';
 
@@ -37,11 +36,11 @@ class RouterBuilder {
                 },
               ),
               GoRoute(
-                  path: AppRoute.search.path,
-                  name: AppRoute.search.name,
+                  path: AppRoute.orders.path,
+                  name: AppRoute.orders.name,
                   pageBuilder: (context, state) {
                     return const NoTransitionPage(
-                      child: SearchView(),
+                      child: OrdersView(),
                     );
                   },
                   routes: [
@@ -69,27 +68,12 @@ class RouterBuilder {
                   );
                 },
               ),
-              GoRoute(
-                path: AppRoute.profile.path,
-                name: AppRoute.profile.name,
-                pageBuilder: (context, state) {
-                  return const NoTransitionPage(
-                    child: ProfileView(),
-                  );
-                },
-              ),
             ],
           ),
           GoRoute(
             path: AppRoute.auth.path,
             name: AppRoute.auth.name,
             builder: (context, state) => const AuthScreen(),
-            // redirect: (context, state) {
-            //   if (authState.isSuccess) {
-            //     return AppRoute.home.path;
-            //   }
-            //   return null;
-            // },
           ),
         ],
       );

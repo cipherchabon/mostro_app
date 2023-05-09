@@ -1,11 +1,10 @@
 enum AppRoute {
   auth('/auth'),
   home('/home'),
-  search('/search'),
+  orders('/orders'),
   orderDetail('order-detail'),
   chat('/chat'),
-  notifications('/notifications'),
-  profile('/profile');
+  notifications('/notifications');
 
   const AppRoute(this.path);
 
