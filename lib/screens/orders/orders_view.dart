@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_svg/svg.dart';
 
-import '../../routing/routes.dart';
+import '../../asset_paths/icon_paths.dart';
+import '../../widgets/gaps.dart';
+import 'sell_order_tile.dart';
 
 class OrdersView extends StatelessWidget {
   const OrdersView({
@@ -15,12 +15,9 @@ class OrdersView extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-          appBar: AppBar(
-            centerTitle: false,
-            title: const Text(
-              'Orders',
-            ),
-            bottom: const TabBar(
+        body: Column(
+          children: const [
+            TabBar(
               tabs: [
                 Tab(
                   text: 'Sell',
@@ -30,69 +27,95 @@ class OrdersView extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          body: const TabBarView(
-            children: [
-              SellOrderList(),
-              BuyOrderList(),
-            ],
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              context.pushNamed(AppRoute.orderDetail.name);
-            },
-            label: const Text('Select'),
-            icon: const Icon(Icons.check),
-          )),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  SellingView(),
+                  BuyingView(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
-class SellOrderList extends StatelessWidget {
-  const SellOrderList({
+class SellingView extends StatelessWidget {
+  const SellingView({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        ListTile(
-          leading: Checkbox(
-            value: false,
-            shape: const CircleBorder(),
-            onChanged: (_) {},
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              gapW8,
+              FilledButton.icon(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                onPressed: () {},
+                icon: const Icon(Icons.filter_alt_outlined),
+                label: const Text(
+                  'Filter',
+                ),
+              ),
+              const Spacer(),
+              OutlinedButton.icon(
+                onPressed: null,
+                icon: SvgPicture.asset(
+                  currencyBitcoinIcon,
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                label: const Text('usd 31.427'),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+              ),
+              gapW8,
+            ],
           ),
-          title: Text('Comprando Sats por xxx ARS'),
-          subtitle: Text('Tasa: yadio.io + 2%'),
-        ),
-        ListTile(
-          leading: Checkbox(
-            value: false,
-            shape: const CircleBorder(),
-            onChanged: (_) {},
+          gapH8,
+          const SellOrderTile(
+            fiatTicker: 'USD',
+            fiatAmount: 100,
+            premium: 1,
           ),
-          title: Text('Comprando Sats por xxx ARS'),
-          subtitle: Text('Tasa: yadio.io + 2%'),
-        ),
-        ListTile(
-          leading: Checkbox(
-            value: true,
-            shape: const CircleBorder(),
-            onChanged: (_) {},
+          const SellOrderTile(
+            fiatTicker: 'ARS',
+            fiatAmount: 10000,
+            premium: 3,
           ),
-          title: Text('Comprando Sats por xxx ARS'),
-          subtitle: Text('Tasa: yadio.io + 2%'),
-        ),
-      ],
+          const SellOrderTile(
+            fiatTicker: 'MXN',
+            fiatAmount: 7000,
+            premium: 2,
+          ),
+        ],
+      ),
     );
   }
 }
 
-class BuyOrderList extends StatelessWidget {
-  const BuyOrderList({
+class BuyingView extends StatelessWidget {
+  const BuyingView({
     super.key,
   });
 

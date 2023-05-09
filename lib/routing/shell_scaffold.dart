@@ -85,11 +85,11 @@ class _ShellScaffoldState extends State<ShellScaffold> {
       case AppRoute.home:
         return 'Mostro';
       case AppRoute.orders:
-        return 'Ordenes';
+        return 'Orders';
       case AppRoute.chat:
         return 'Chat';
       case AppRoute.notifications:
-        return 'Notificaciones';
+        return 'Notifications';
       default:
         return '';
     }
