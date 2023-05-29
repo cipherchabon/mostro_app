@@ -1,0 +1,23 @@
+[package]
+name = "ffi_plugin"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+aes-gcm-siv = "0.11.1"
+argon2 = "0.5.0"
+base64 = "0.21.1"
+hex = "0.4.3"
+mostro-core = "0.2.7"
+nostr-sdk = "0.21.0"
+rand = "0.8.5"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1", features = ["full"] }
+
+[build-dependencies]
+cbindgen = "0.24.3"

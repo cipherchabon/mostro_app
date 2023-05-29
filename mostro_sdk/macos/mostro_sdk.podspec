@@ -20,7 +20,7 @@ Mostro SDK (FFI Plugin)
   s.source           = { :path => '.' }
   s.source_files     = 'Classes/**/*'
   s.dependency 'FlutterMacOS'
-
+  s.vendored_libraries = 'libffi_plugin.dylib'
   s.platform = :osx, '10.11'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
   s.swift_version = '5.0'

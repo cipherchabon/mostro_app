@@ -1,0 +1,76 @@
+[config]
+min_version = "0.35.0"
+
+[env]
+CARGO_MAKE_RUST_CHANNEL = "stable"
+CARGO_MAKE_CRATE_WORKSPACE_MEMBERS = ["."]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+PLUGIN_NAME = "ffi-plugin"
+
+[tasks.test-rust]
+description = "Run rust tests"
+command = "cargo"
+args = ["test"]
+
+[tasks.build-rust]
+description = "Build rust plugin"
+command = "cargo"
+args = ["build", "--release"]
+
+# Copy the Rust plugin's dylib to the macos folder and update its rpath to
+# enable relative path lookup. 
+[tasks.copy-lib-to-macos]
+description = "Copy rust plugin to macos folder"
+script = [
+'''
+cp $(PWD)/target/release/libffi_plugin.dylib $(PWD)/../macos/libffi_plugin.dylib
+install_name_tool -id "@rpath/libffi_plugin.dylib" $(PWD)/../macos/libffi_plugin.dylib
+'''
+]
+
+# Run cargo-ndk to build the Rust plugin for Android. The plugin is copied to
+# the android folder so that it can be included in the Android app.
+[tasks.run-cargo-ndk]
+description = "Run cargo-ndk and copy rust plugin to android folder"
+command = "cargo"
+args = ["ndk", "-t", "arm64-v8a", "-t", "armeabi-v7a", "-o", "../android/src/main/jniLibs", "build", "--release"]
+
+[tasks.clean-rust]
+description = "Clean rust plugin"
+command = "cargo"
+args = ["clean"]
+
+[tasks.ffigen]
+description = "Run ffigen"
+command = "flutter"
+args = ["pub", "run", "ffigen", "--config", "ffigen.yaml"]
+cwd = ".."
+
+[tasks.clean-flutter]
+description = "Clean flutter and get packages"
+script = [
+'''
+flutter clean && flutter pub get && cd example && flutter clean && flutter pub get && cd ..
+'''
+]
+cwd = ".."
+
+[tasks.all]
+description = "Run all tasks"
+dependencies = [
+    "test-rust",
+    "build-rust",
+    "copy-lib-to-macos",
+    "run-cargo-ndk",
+    "clean-rust",
+    "ffigen",
+    "clean-flutter",
+]
+
+[tasks.update]
+description = "Run all tasks"
+dependencies = [
+    "build-rust",
+    "copy-lib-to-macos",
+    "run-cargo-ndk",
+]
