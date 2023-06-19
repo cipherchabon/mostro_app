@@ -6,6 +6,7 @@ const gapH8 = SizedBox(height: 8);
 const gapH16 = SizedBox(height: 16);
 const gapH32 = SizedBox(height: 32);
 const gapH64 = SizedBox(height: 64);
+const gapH128 = SizedBox(height: 128);
 
 /// Gap widgets for horizontal spacing.
 const gapW4 = SizedBox(width: 4);

@@ -1,8 +1,6 @@
 import '../../../widgets/widgets.dart';
 import '../../auth.dart';
-import '../../controllers/pin/set_pin_controller.dart';
-import '../../model/pin/form/pin_form.dart';
-import '../../model/pin/state/set_pin_state.dart';
+import '../../controllers/pin/pin_controllers.dart';
 import 'pin_input_field.dart';
 
 class SetPinScreen extends ConsumerWidget {
@@ -10,15 +8,26 @@ class SetPinScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(setPinScreenControllerProvider, (prev, next) {
+      if (next.isSuccess) {
+        Future.delayed(const Duration(milliseconds: 100), () {
+          context.pushReplacement(setKeysRoutePath);
+        });
+      }
+    });
     return Scaffold(
-      body: Center(
-        child: FractionallySizedBox(
-          widthFactor: 0.7,
-          child: Column(
-            children: [
-              Expanded(child: Logo()),
-              Expanded(child: SetPinFormView()),
-            ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: FractionallySizedBox(
+            widthFactor: 0.7,
+            child: Column(
+              children: [
+                gapH128,
+                Logo(),
+                gapH32,
+                SetPinFormView(),
+              ],
+            ),
           ),
         ),
       ),
@@ -26,92 +35,48 @@ class SetPinScreen extends ConsumerWidget {
   }
 }
 
-class SetPinFormView extends ConsumerStatefulWidget {
+class SetPinFormView extends ConsumerWidget {
   const SetPinFormView({super.key});
 
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _PinFormViewState();
-}
-
-class _PinFormViewState extends ConsumerState<SetPinFormView> {
-  late FocusNode focusNode;
-  late TextEditingController pinController;
-  late TextEditingController confirmPinController;
-
-  SetPinState get state => ref.watch(setPinControllerProvider);
-  SetPinController get controller =>
-      ref.read(setPinControllerProvider.notifier);
-
-  bool get pinIsValid => state.form.pinIsValid;
-
-  @override
-  void initState() {
-    super.initState();
-    pinController = TextEditingController();
-    confirmPinController = TextEditingController();
-    focusNode = FocusNode()..requestFocus();
-    pinController.addListener(() {
-      controller.pinChanged(pinController.text);
-    });
-    confirmPinController.addListener(() {
-      controller.confirmPinChanged(confirmPinController.text);
-    });
+  String? errorMessage(SetPinState state) {
+    if (state.isError) {
+      final error = (state as PinError).error;
+      return switch (error) {
+        PinFieldError.doesNotMatch => 'PIN does not match',
+      };
+    }
+    return null;
   }
 
   @override
-  void dispose() {
-    pinController.dispose();
-    confirmPinController.dispose();
-    focusNode.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    ref.listen(setPinControllerProvider, (prev, next) {
-      if (prev != null) {
-        if (!prev.form.pinIsValid && next.form.pinIsValid) {
-          Future.delayed(Duration(milliseconds: 100), () {
-            focusNode.requestFocus();
-          });
-        }
-
-        if (next.form.errorMessage != null) {
-          Future.delayed(Duration(milliseconds: 600), () {
-            confirmPinController.clear();
-            focusNode.requestFocus();
-          });
-        }
-
-        if (next.isSuccess) {
-          context.go(setKeysRoutePath);
-        }
-      }
-    });
-    final state = ref.watch(setPinControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pinController = ref.watch(pinFieldControllerProvider);
+    final confirmPinController = ref.watch(confirmPinFieldControllerProvider);
+    final state = ref.watch(setPinScreenControllerProvider);
+    final isEnterPin = state.isEnterPin;
+    final controller = isEnterPin ? pinController : confirmPinController;
     return Column(
       children: [
         Text(
-          pinIsValid ? 'Re-enter you PIN' : 'Create a PIN',
+          isEnterPin ? 'Create a PIN' : 'Re-enter you PIN',
           style: Theme.of(context).textTheme.titleLarge,
         ),
         gapH16,
         Text(
-          pinIsValid
-              ? 'If you forget your PIN, you will need to reset your keys'
-              : 'Please enter any $pinLength digit that you will use to unlock yours keys',
+          isEnterPin
+              ? 'Please enter any 6 digit that you will use to unlock yours keys'
+              : 'If you forget your PIN, you will need to reset your keys',
           style: Theme.of(context).textTheme.bodyMedium,
           textAlign: TextAlign.center,
         ),
         gapH32,
-        if (state.isSubmiting)
+        if (state.isSuccess)
           Spinner()
         else
           PinInputField(
-            focusNode: focusNode,
-            controller: pinIsValid ? confirmPinController : pinController,
-            errorMessage: state.form.errorMessage,
-            enabled: !state.form.confirmPinIsValid,
+            controller: controller,
+            focusNode: ref.watch(pinFocusNodeProvider),
+            errorMessage: errorMessage(state),
           ),
       ],
     );

@@ -3,7 +3,7 @@ import 'package:mostro_sdk/mostro_sdk.dart';
 import '../../domain/exceptions/app_exceptions.dart';
 
 class NativeDataSource {
-  Future<String> generateSalt() async {
+  String generateSalt() {
     try {
       return Argon2.generateSalt();
     } catch (e) {
@@ -11,7 +11,7 @@ class NativeDataSource {
     }
   }
 
-  Future<String> getPinHash(String pin, String salt) async {
+  String getPinHash(String pin, String salt) {
     final result = Argon2.hashPassword(pin, salt);
     return result.when(
       ok: (h) => h,

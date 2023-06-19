@@ -1,18 +1,18 @@
-import '../../app/controller/controller.dart';
 import '../../widgets/widgets.dart';
 import '../auth.dart';
+import '../controllers/pin/pin_controllers.dart';
 
 class SpashScreen extends ConsumerWidget {
   const SpashScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(appControllerProvider, (prev, next) {
-      next.whenData((s) {
-        if (s.pinSeted) {
-          context.go(enterPinRoutePath);
+    ref.listen(pinControllerProvider, (prev, next) {
+      next.whenData((pin) {
+        if (pin != null) {
+          context.pushReplacement(enterPinRoutePath);
         } else {
-          context.go(setPinRoutePath);
+          context.pushReplacement(setPinRoutePath);
         }
       });
     });

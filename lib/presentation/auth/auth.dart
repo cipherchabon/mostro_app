@@ -37,10 +37,8 @@ final authRoutes = [
   ),
   GoRoute(
     path: setKeysRoutePath,
-    pageBuilder: (context, state) {
-      return const NoTransitionPage(
-        child: SetKeysScreen(),
-      );
+    builder: (context, state) {
+      return SetKeysScreen();
     },
   ),
 ];

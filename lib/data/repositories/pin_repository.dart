@@ -11,18 +11,22 @@ class PinRepository {
     this.nativeDataSource,
   );
 
-  Future<bool> isPinSet() async {
-    final pinData = await localDataSource.getPinData();
-    return pinData != null;
+  Future<Pin?> getPin() {
+    return localDataSource.getPinData();
   }
 
   Future<void> setPin(String pin) async {
-    final salt = await nativeDataSource.generateSalt();
-    final hash = await nativeDataSource.getPinHash(pin, salt);
+    final salt = nativeDataSource.generateSalt();
+    final hash = nativeDataSource.getPinHash(pin, salt);
     await localDataSource.setPinHashSalt(Pin(
       hash: hash,
       salt: salt,
       createdAt: DateTime.now(),
     ));
+  }
+
+  bool checkPin(String value, Pin pin) {
+    final hash = nativeDataSource.getPinHash(value, pin.salt);
+    return hash == pin.hash;
   }
 }
