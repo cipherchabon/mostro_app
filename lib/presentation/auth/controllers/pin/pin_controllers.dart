@@ -52,7 +52,7 @@ TextEditingController confirmPinFieldController(
 @riverpod
 Stream<String> pinValue(PinValueRef ref) {
   final streamController = StreamController<String>();
-  final field = ref.read(pinFieldControllerProvider);
+  final field = ref.watch(pinFieldControllerProvider);
 
   ref.onDispose(() {
     streamController.close();
@@ -68,7 +68,7 @@ Stream<String> pinValue(PinValueRef ref) {
 @riverpod
 Stream<String> confirmPinValue(ConfirmPinValueRef ref) {
   final streamController = StreamController<String>();
-  final field = ref.read(confirmPinFieldControllerProvider);
+  final field = ref.watch(confirmPinFieldControllerProvider);
 
   ref.onDispose(() {
     streamController.close();
@@ -82,19 +82,37 @@ Stream<String> confirmPinValue(ConfirmPinValueRef ref) {
 }
 
 @riverpod
-class SetPinScreenController extends _$SetPinScreenController {
+class PinScreenController extends _$PinScreenController {
+  PinRepository get repo => ref.read(authRepositoryProvider);
+  Pin? get pin => ref.watch(pinControllerProvider).value;
+  FocusNode get focus => ref.watch(pinFocusNodeProvider);
+  String get pinValue => ref.watch(pinValueProvider).value ?? '';
+
   @override
-  SetPinState build() {
-    final focus = ref.watch(pinFocusNodeProvider);
+  PinScreenState build() {
     // Observe the pin value
     ref.listen(pinValueProvider, (_, next) {
       next.whenData((value) {
-        print(value);
         if (value.length == 6) {
-          state = ConfirmPin();
-          Future.delayed(const Duration(milliseconds: 100), () {
-            focus.requestFocus();
-          });
+          if (pin != null) {
+            if (repo.checkPin(value, pin!)) {
+              Future.delayed(const Duration(milliseconds: 100), () {
+                state = Success();
+              });
+            } else {
+              state = PinError(PinFieldError.invalid);
+              Future.delayed(const Duration(milliseconds: 600), () {
+                ref.read(pinFieldControllerProvider).clear();
+                state = EnterPin();
+                focus.requestFocus();
+              });
+            }
+          } else {
+            state = ConfirmPin();
+            Future.delayed(const Duration(milliseconds: 100), () {
+              focus.requestFocus();
+            });
+          }
         }
       });
     });
@@ -102,9 +120,7 @@ class SetPinScreenController extends _$SetPinScreenController {
     // Observe the confirm pin value
     ref.listen(confirmPinValueProvider, (prev, next) {
       next.whenData((value) {
-        print(value);
         if (value.length == 6) {
-          final pinValue = ref.watch(pinValueProvider).value;
           if (pinValue != value) {
             state = PinError(PinFieldError.doesNotMatch);
             Future.delayed(const Duration(milliseconds: 600), () {
@@ -112,10 +128,9 @@ class SetPinScreenController extends _$SetPinScreenController {
               state = ConfirmPin();
               focus.requestFocus();
             });
-            return;
           } else {
             state = Submitting();
-            final repo = ref.read(authRepositoryProvider);
+
             repo.setPin(value).then((value) {
               state = Success();
             });
@@ -124,35 +139,42 @@ class SetPinScreenController extends _$SetPinScreenController {
       });
     });
 
-    return EnterPin();
+    return pin == null ? SetPin() : EnterPin();
   }
 }
 
-sealed class SetPinState extends Equatable {
+sealed class PinScreenState extends Equatable {
   bool get isEnterPin => this is EnterPin;
+  bool get isSetPin => this is SetPin;
   bool get isConfirmPin => this is ConfirmPin;
   bool get isError => this is PinError;
+  bool get isSubmitting => this is Submitting;
   bool get isSuccess => this is Success;
 
-  const SetPinState();
+  const PinScreenState();
 
   @override
   List<Object?> get props => [];
 }
 
-class EnterPin extends SetPinState {
+class EnterPin extends PinScreenState {
   const EnterPin();
 }
 
-class ConfirmPin extends SetPinState {
+class SetPin extends PinScreenState {
+  const SetPin();
+}
+
+class ConfirmPin extends PinScreenState {
   const ConfirmPin();
 }
 
 enum PinFieldError {
+  invalid,
   doesNotMatch,
 }
 
-class PinError extends SetPinState {
+class PinError extends PinScreenState {
   final PinFieldError error;
 
   const PinError(this.error);
@@ -161,10 +183,10 @@ class PinError extends SetPinState {
   List<Object?> get props => [error];
 }
 
-class Submitting extends SetPinState {
+class Submitting extends PinScreenState {
   const Submitting();
 }
 
-class Success extends SetPinState {
+class Success extends PinScreenState {
   const Success();
 }

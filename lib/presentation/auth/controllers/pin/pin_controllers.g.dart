@@ -55,7 +55,7 @@ final confirmPinFieldControllerProvider =
 
 typedef ConfirmPinFieldControllerRef
     = AutoDisposeProviderRef<TextEditingController>;
-String _$pinValueHash() => r'085306d25f158f17ba7c455aea943aeac000ef12';
+String _$pinValueHash() => r'31c03d422270da3bdafcdb92418600d9df69ee41';
 
 /// See also [pinValue].
 @ProviderFor(pinValue)
@@ -69,7 +69,7 @@ final pinValueProvider = AutoDisposeStreamProvider<String>.internal(
 );
 
 typedef PinValueRef = AutoDisposeStreamProviderRef<String>;
-String _$confirmPinValueHash() => r'4011f8712ee9a087976a723cf380ce8d4e28eb62';
+String _$confirmPinValueHash() => r'80d2d86b7c1da0f5b753345c1780915bde23b519';
 
 /// See also [confirmPinValue].
 @ProviderFor(confirmPinValue)
@@ -100,21 +100,21 @@ final pinControllerProvider =
 );
 
 typedef _$PinController = AsyncNotifier<Pin?>;
-String _$setPinScreenControllerHash() =>
-    r'0ad4d8d4dd070f68c362975375ce1dc4c6cae705';
+String _$pinScreenControllerHash() =>
+    r'b64910127f1be34f945785d2ecefd76cc4da8816';
 
-/// See also [SetPinScreenController].
-@ProviderFor(SetPinScreenController)
-final setPinScreenControllerProvider =
-    AutoDisposeNotifierProvider<SetPinScreenController, SetPinState>.internal(
-  SetPinScreenController.new,
-  name: r'setPinScreenControllerProvider',
+/// See also [PinScreenController].
+@ProviderFor(PinScreenController)
+final pinScreenControllerProvider =
+    AutoDisposeNotifierProvider<PinScreenController, PinScreenState>.internal(
+  PinScreenController.new,
+  name: r'pinScreenControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$setPinScreenControllerHash,
+      : _$pinScreenControllerHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SetPinScreenController = AutoDisposeNotifier<SetPinState>;
+typedef _$PinScreenController = AutoDisposeNotifier<PinScreenState>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
