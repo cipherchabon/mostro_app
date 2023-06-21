@@ -6,6 +6,20 @@ part of 'pin_controllers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$pinHash() => r'd087364bfc5c39b13401bee3e359a7227d6e5815';
+
+/// See also [pin].
+@ProviderFor(pin)
+final pinProvider = FutureProvider<Pin?>.internal(
+  pin,
+  name: r'pinProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$pinHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef PinRef = FutureProviderRef<Pin?>;
 String _$pinFocusNodeHash() => r'04b9a676119465c77298e8ff2325c48897aef967';
 
 /// See also [pinFocusNode].
@@ -84,24 +98,8 @@ final confirmPinValueProvider = AutoDisposeStreamProvider<String>.internal(
 );
 
 typedef ConfirmPinValueRef = AutoDisposeStreamProviderRef<String>;
-String _$pinControllerHash() => r'9f6c36dfe7cc4817b0571ab080e99d81faa99245';
-
-/// See also [PinController].
-@ProviderFor(PinController)
-final pinControllerProvider =
-    AsyncNotifierProvider<PinController, Pin?>.internal(
-  PinController.new,
-  name: r'pinControllerProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$pinControllerHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$PinController = AsyncNotifier<Pin?>;
 String _$pinScreenControllerHash() =>
-    r'b64910127f1be34f945785d2ecefd76cc4da8816';
+    r'4dd2930c05f28c4700a1f6847e3b4ca16f92755f';
 
 /// See also [PinScreenController].
 @ProviderFor(PinScreenController)

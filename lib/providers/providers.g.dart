@@ -7,7 +7,7 @@ part of 'providers.dart';
 // **************************************************************************
 
 String _$flutterSecureStorageHash() =>
-    r'd2f09e488339d1103415fb8714b47df4f4b78eb8';
+    r'9c1bddfc3ff0feab716da5769bcf29f7e386a0bc';
 
 /// See also [flutterSecureStorage].
 @ProviderFor(flutterSecureStorage)
@@ -69,20 +69,6 @@ final authRepositoryProvider = Provider<PinRepository>.internal(
 );
 
 typedef AuthRepositoryRef = ProviderRef<PinRepository>;
-String _$authServiceHash() => r'aa12763d4042092fce8cf4ec12914fa7cdefc738';
-
-/// See also [authService].
-@ProviderFor(authService)
-final authServiceProvider = Provider<AuthService>.internal(
-  authService,
-  name: r'authServiceProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$authServiceHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef AuthServiceRef = ProviderRef<AuthService>;
 String _$nativeDataSourceHash() => r'21f1fa1611b41ef16792261f067a81eed2826983';
 
 /// See also [nativeDataSource].

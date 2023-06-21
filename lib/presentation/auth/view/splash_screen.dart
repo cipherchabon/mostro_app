@@ -7,7 +7,7 @@ class SpashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(pinControllerProvider, (prev, next) {
+    ref.listen(pinProvider, (prev, next) {
       next.whenData((_) {
         context.pushReplacement(pinRoutePath);
       });

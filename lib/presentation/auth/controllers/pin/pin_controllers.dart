@@ -11,14 +11,9 @@ import '../../../widgets/widgets.dart' show FocusNode, TextEditingController;
 part 'pin_controllers.g.dart';
 
 @Riverpod(keepAlive: true)
-class PinController extends _$PinController {
-  PinRepository get authRepo => ref.read(authRepositoryProvider);
-
-  @override
-  Future<Pin?> build() async {
-    final pin = await authRepo.getPin();
-    return pin;
-  }
+Future<Pin?> pin(PinRef ref) {
+  final repo = ref.read(authRepositoryProvider);
+  return repo.getPin();
 }
 
 @riverpod
@@ -84,7 +79,7 @@ Stream<String> confirmPinValue(ConfirmPinValueRef ref) {
 @riverpod
 class PinScreenController extends _$PinScreenController {
   PinRepository get repo => ref.read(authRepositoryProvider);
-  Pin? get pin => ref.watch(pinControllerProvider).value;
+  Pin? get pin => ref.watch(pinProvider).value;
   FocusNode get focus => ref.watch(pinFocusNodeProvider);
   String get pinValue => ref.watch(pinValueProvider).value ?? '';
 

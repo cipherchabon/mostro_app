@@ -1,7 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../application/auth_service.dart';
 import '../data/data_souces/native.dart';
 import '../data/data_souces/pin_local.dart';
 import '../data/repositories/pin_repository.dart';
@@ -12,6 +11,7 @@ part 'providers.g.dart';
 @Riverpod(keepAlive: true)
 FlutterSecureStorage flutterSecureStorage(FlutterSecureStorageRef ref) {
   const storage = FlutterSecureStorage();
+  // storage.deleteAll();
   return storage;
 }
 
@@ -34,13 +34,6 @@ PinRepository authRepository(AuthRepositoryRef ref) {
   return PinRepository(
     ref.read(authLocalDataSourceProvider),
     ref.read(nativeDataSourceProvider),
-  );
-}
-
-@Riverpod(keepAlive: true)
-AuthService authService(AuthServiceRef ref) {
-  return AuthService(
-    ref.read(authRepositoryProvider),
   );
 }
 
