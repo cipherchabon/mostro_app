@@ -39,11 +39,11 @@ final secureLocalStorageProvider = Provider<SecureLocalStorage>.internal(
 
 typedef SecureLocalStorageRef = ProviderRef<SecureLocalStorage>;
 String _$authLocalDataSourceHash() =>
-    r'e74ec281937bc31325f794ed0ab147738deda536';
+    r'6483da38181bcf896491569c1b243320ad3487a2';
 
 /// See also [authLocalDataSource].
 @ProviderFor(authLocalDataSource)
-final authLocalDataSourceProvider = Provider<PinLocalDataSource>.internal(
+final authLocalDataSourceProvider = Provider<LocalPinDataSource>.internal(
   authLocalDataSource,
   name: r'authLocalDataSourceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -53,8 +53,8 @@ final authLocalDataSourceProvider = Provider<PinLocalDataSource>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef AuthLocalDataSourceRef = ProviderRef<PinLocalDataSource>;
-String _$authRepositoryHash() => r'afb9e8bcb6bb6162954b8348c176bf64d556b8fd';
+typedef AuthLocalDataSourceRef = ProviderRef<LocalPinDataSource>;
+String _$authRepositoryHash() => r'cb56ae222c82eba5451e1ac433e8e9dc2231d7b2';
 
 /// See also [authRepository].
 @ProviderFor(authRepository)
@@ -69,19 +69,35 @@ final authRepositoryProvider = Provider<PinRepository>.internal(
 );
 
 typedef AuthRepositoryRef = ProviderRef<PinRepository>;
-String _$nativeDataSourceHash() => r'21f1fa1611b41ef16792261f067a81eed2826983';
+String _$keysLocalDataSourceHash() =>
+    r'df36daaea6a8cbc5318f8d1388007974a4f01c6c';
 
-/// See also [nativeDataSource].
-@ProviderFor(nativeDataSource)
-final nativeDataSourceProvider = Provider<NativeDataSource>.internal(
-  nativeDataSource,
-  name: r'nativeDataSourceProvider',
+/// See also [keysLocalDataSource].
+@ProviderFor(keysLocalDataSource)
+final keysLocalDataSourceProvider = Provider<LocalKeysDataSource>.internal(
+  keysLocalDataSource,
+  name: r'keysLocalDataSourceProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$nativeDataSourceHash,
+      : _$keysLocalDataSourceHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef NativeDataSourceRef = ProviderRef<NativeDataSource>;
+typedef KeysLocalDataSourceRef = ProviderRef<LocalKeysDataSource>;
+String _$keysRepositoryHash() => r'7caf8cb9e1be3b3c7a79d007d6d98f7e1b82187c';
+
+/// See also [keysRepository].
+@ProviderFor(keysRepository)
+final keysRepositoryProvider = Provider<KeysRepository>.internal(
+  keysRepository,
+  name: r'keysRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$keysRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef KeysRepositoryRef = ProviderRef<KeysRepository>;
 // ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions

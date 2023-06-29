@@ -4,10 +4,10 @@ import '../secure_local_storage.dart';
 
 const _pinDataKey = '__pin_data__';
 
-class PinLocalDataSource {
+class LocalPinDataSource {
   final SecureLocalStorage storage;
 
-  const PinLocalDataSource(this.storage);
+  const LocalPinDataSource(this.storage);
 
   Future<Pin?> getPinData() async {
     final data = await storage.read<JsonMap>(_pinDataKey);

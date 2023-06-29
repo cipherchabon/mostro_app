@@ -2,7 +2,6 @@ import 'package:ffi/ffi.dart';
 import 'package:mostro_sdk/common.dart';
 import 'package:mostro_sdk/ffi_bindings.dart';
 import 'package:mostro_sdk/native_result.dart';
-import 'package:oxidized/oxidized.dart';
 
 import '../exceptions.dart';
 

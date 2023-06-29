@@ -27,132 +27,6 @@ class MostroSdkBindings {
           lookup)
       : _lookup = lookup;
 
-  /// Create a new [`Client`] with [`Options`]
-  /// # Safety
-  ffi.Pointer<ffi.Void> client_new_with_opts(
-    ffi.Pointer<ffi.Void> keys_ptr,
-    ffi.Pointer<ffi.Void> opts_ptr,
-  ) {
-    return _client_new_with_opts(
-      keys_ptr,
-      opts_ptr,
-    );
-  }
-
-  late final _client_new_with_optsPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('client_new_with_opts');
-  late final _client_new_with_opts = _client_new_with_optsPtr.asFunction<
-      ffi.Pointer<ffi.Void> Function(
-          ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// Add new relays
-  /// # Safety
-  PtrResult client_add_relay(
-    ffi.Pointer<ffi.Char> url,
-    ffi.Pointer<ffi.Void> client_ptr,
-    ffi.Pointer<ffi.Void> runtime_ptr,
-  ) {
-    return _client_add_relay(
-      url,
-      client_ptr,
-      runtime_ptr,
-    );
-  }
-
-  late final _client_add_relayPtr = _lookup<
-      ffi.NativeFunction<
-          PtrResult Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>>('client_add_relay');
-  late final _client_add_relay = _client_add_relayPtr.asFunction<
-      PtrResult Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>)>();
-
-  /// Connect to all added relays
-  /// # Safety
-  void client_connect(
-    ffi.Pointer<ffi.Void> client_ptr,
-    ffi.Pointer<ffi.Void> runtime_ptr,
-  ) {
-    return _client_connect(
-      client_ptr,
-      runtime_ptr,
-    );
-  }
-
-  late final _client_connectPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>('client_connect');
-  late final _client_connect = _client_connectPtr.asFunction<
-      void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// Create new [`Options`] with wait for connection
-  /// # Safety
-  ffi.Pointer<ffi.Void> options_new_with_wait_for_connection(
-    bool wait,
-  ) {
-    return _options_new_with_wait_for_connection(
-      wait,
-    );
-  }
-
-  late final _options_new_with_wait_for_connectionPtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Bool)>>(
-          'options_new_with_wait_for_connection');
-  late final _options_new_with_wait_for_connection =
-      _options_new_with_wait_for_connectionPtr
-          .asFunction<ffi.Pointer<ffi.Void> Function(bool)>();
-
-  /// Frees a pointer to a `Keys` struct.
-  /// # Safety
-  void free_keys_ptr(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _free_keys_ptr(
-      ptr,
-    );
-  }
-
-  late final _free_keys_ptrPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'free_keys_ptr');
-  late final _free_keys_ptr =
-      _free_keys_ptrPtr.asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// Frees a pointer to a `XOnlyPublicKey` struct.
-  /// # Safety
-  void free_pk_ptr(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _free_pk_ptr(
-      ptr,
-    );
-  }
-
-  late final _free_pk_ptrPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'free_pk_ptr');
-  late final _free_pk_ptr =
-      _free_pk_ptrPtr.asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// Frees a pointer to a `SecretKey` struct.
-  /// # Safety
-  void free_sk_ptr(
-    ffi.Pointer<ffi.Void> ptr,
-  ) {
-    return _free_sk_ptr(
-      ptr,
-    );
-  }
-
-  late final _free_sk_ptrPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'free_sk_ptr');
-  late final _free_sk_ptr =
-      _free_sk_ptrPtr.asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
   /// Frees a pointer to a `c_char` string.
   /// # Safety
   void free_char_ptr(
@@ -169,34 +43,6 @@ class MostroSdkBindings {
   late final _free_char_ptr =
       _free_char_ptrPtr.asFunction<void Function(ffi.Pointer<ffi.Char>)>();
 
-  /// Create a new Tokio runtime.
-  /// # Safety
-  ffi.Pointer<ffi.Void> create_runtime() {
-    return _create_runtime();
-  }
-
-  late final _create_runtimePtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-          'create_runtime');
-  late final _create_runtime =
-      _create_runtimePtr.asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// Destroy a Tokio runtime.
-  /// # Safety
-  void destroy_runtime(
-    ffi.Pointer<ffi.Void> runtime_ptr,
-  ) {
-    return _destroy_runtime(
-      runtime_ptr,
-    );
-  }
-
-  late final _destroy_runtimePtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          'destroy_runtime');
-  late final _destroy_runtime =
-      _destroy_runtimePtr.asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
   /// Encrypts data using the AES-GCM-SIV algorithm.
   ///
   /// # Safety
@@ -206,6 +52,7 @@ class MostroSdkBindings {
   /// The caller is responsible for:
   /// - Ensuring both `key` and `data` are valid pointers to null-terminated
   /// C strings.
+  /// - key shoud be a base64 encoded string
   /// - Properly freeing the `string` and `error_ptr` fields of the returned
   /// `StringResult` struct on the Dart side.
   ///
@@ -241,21 +88,18 @@ class MostroSdkBindings {
   ///
   /// To free the strings in Dart, you should use `ffi`'s `calloc.free` function.
   StringResult decrypt(
-    ffi.Pointer<ffi.Char> key,
     ffi.Pointer<ffi.Char> encrypted_data_json,
   ) {
     return _decrypt(
-      key,
       encrypted_data_json,
     );
   }
 
-  late final _decryptPtr = _lookup<
-      ffi.NativeFunction<
-          StringResult Function(
-              ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)>>('decrypt');
-  late final _decrypt = _decryptPtr.asFunction<
-      StringResult Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)>();
+  late final _decryptPtr =
+      _lookup<ffi.NativeFunction<StringResult Function(ffi.Pointer<ffi.Char>)>>(
+          'decrypt');
+  late final _decrypt =
+      _decryptPtr.asFunction<StringResult Function(ffi.Pointer<ffi.Char>)>();
 
   /// Generates a random salt using the Argon2 algorithm.
   ffi.Pointer<ffi.Char> generate_salt() {
@@ -365,117 +209,35 @@ class MostroSdkBindings {
   late final _derive_encryption_key = _derive_encryption_keyPtr.asFunction<
       StringResult Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>)>();
 
-  /// Initialize from secret key.
   /// # Safety
-  /// secret_key must be a valid 32-byte secret key
-  ffi.Pointer<ffi.Void> keys_new(
-    ffi.Pointer<ffi.Void> secret_key,
+  StringResult get_keys_from_sk_str(
+    ffi.Pointer<ffi.Char> value,
   ) {
-    return _keys_new(
-      secret_key,
+    return _get_keys_from_sk_str(
+      value,
     );
   }
 
-  late final _keys_newPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>('keys_new');
-  late final _keys_new = _keys_newPtr
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+  late final _get_keys_from_sk_strPtr =
+      _lookup<ffi.NativeFunction<StringResult Function(ffi.Pointer<ffi.Char>)>>(
+          'get_keys_from_sk_str');
+  late final _get_keys_from_sk_str = _get_keys_from_sk_strPtr
+      .asFunction<StringResult Function(ffi.Pointer<ffi.Char>)>();
 
-  /// Initialize with public key only (no secret key).
   /// # Safety
-  /// public_key must be a valid 33-byte public key
-  ffi.Pointer<ffi.Void> keys_from_public_key(
-    ffi.Pointer<ffi.Void> public_key,
+  StringResult get_keys_from_pk_str(
+    ffi.Pointer<ffi.Char> value,
   ) {
-    return _keys_from_public_key(
-      public_key,
+    return _get_keys_from_pk_str(
+      value,
     );
   }
 
-  late final _keys_from_public_keyPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>)>>('keys_from_public_key');
-  late final _keys_from_public_key = _keys_from_public_keyPtr
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// Generate a new key pair
-  ffi.Pointer<ffi.Void> keys_generate() {
-    return _keys_generate();
-  }
-
-  late final _keys_generatePtr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-          'keys_generate');
-  late final _keys_generate =
-      _keys_generatePtr.asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// Get the public key
-  /// # Safety
-  ffi.Pointer<ffi.Void> keys_get_public_key(
-    ffi.Pointer<ffi.Void> keys_ptr,
-  ) {
-    return _keys_get_public_key(
-      keys_ptr,
-    );
-  }
-
-  late final _keys_get_public_keyPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>)>>('keys_get_public_key');
-  late final _keys_get_public_key = _keys_get_public_keyPtr
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// Get the secret key
-  /// # Safety
-  PtrOption keys_get_secret_key(
-    ffi.Pointer<ffi.Void> keys_ptr,
-  ) {
-    return _keys_get_secret_key(
-      keys_ptr,
-    );
-  }
-
-  late final _keys_get_secret_keyPtr =
-      _lookup<ffi.NativeFunction<PtrOption Function(ffi.Pointer<ffi.Void>)>>(
-          'keys_get_secret_key');
-  late final _keys_get_secret_key = _keys_get_secret_keyPtr
-      .asFunction<PtrOption Function(ffi.Pointer<ffi.Void>)>();
-
-  /// Create a new public key from a 33-byte array.
-  /// # Safety
-  PtrResult public_key_from_str(
-    ffi.Pointer<ffi.Char> pk_str,
-  ) {
-    return _public_key_from_str(
-      pk_str,
-    );
-  }
-
-  late final _public_key_from_strPtr =
-      _lookup<ffi.NativeFunction<PtrResult Function(ffi.Pointer<ffi.Char>)>>(
-          'public_key_from_str');
-  late final _public_key_from_str = _public_key_from_strPtr
-      .asFunction<PtrResult Function(ffi.Pointer<ffi.Char>)>();
-
-  /// Public Key to String
-  /// # Safety
-  ffi.Pointer<ffi.Char> public_key_to_str(
-    ffi.Pointer<ffi.Void> pk,
-  ) {
-    return _public_key_to_str(
-      pk,
-    );
-  }
-
-  late final _public_key_to_strPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<ffi.Void>)>>('public_key_to_str');
-  late final _public_key_to_str = _public_key_to_strPtr
-      .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
+  late final _get_keys_from_pk_strPtr =
+      _lookup<ffi.NativeFunction<StringResult Function(ffi.Pointer<ffi.Char>)>>(
+          'get_keys_from_pk_str');
+  late final _get_keys_from_pk_str = _get_keys_from_pk_strPtr
+      .asFunction<StringResult Function(ffi.Pointer<ffi.Char>)>();
 
   /// Check if a public key (XOnlyPublicKey) is valid.
   /// # Safety
@@ -492,39 +254,6 @@ class MostroSdkBindings {
           'validate_public_key');
   late final _validate_public_key = _validate_public_keyPtr
       .asFunction<BoolResult Function(ffi.Pointer<ffi.Char>)>();
-
-  /// Create a new secret key from a 32-byte array.
-  /// # Safety
-  PtrResult secret_key_from_str(
-    ffi.Pointer<ffi.Char> sk_str,
-  ) {
-    return _secret_key_from_str(
-      sk_str,
-    );
-  }
-
-  late final _secret_key_from_strPtr =
-      _lookup<ffi.NativeFunction<PtrResult Function(ffi.Pointer<ffi.Char>)>>(
-          'secret_key_from_str');
-  late final _secret_key_from_str = _secret_key_from_strPtr
-      .asFunction<PtrResult Function(ffi.Pointer<ffi.Char>)>();
-
-  /// Secret Key to String
-  /// # Safety
-  ffi.Pointer<ffi.Char> secret_key_to_str(
-    ffi.Pointer<ffi.Void> sk,
-  ) {
-    return _secret_key_to_str(
-      sk,
-    );
-  }
-
-  late final _secret_key_to_strPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Pointer<ffi.Char> Function(
-              ffi.Pointer<ffi.Void>)>>('secret_key_to_str');
-  late final _secret_key_to_str = _secret_key_to_strPtr
-      .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Void>)>();
 
   /// Check if a secret key is valid.
   /// # Safety
@@ -543,12 +272,6 @@ class MostroSdkBindings {
       .asFunction<BoolResult Function(ffi.Pointer<ffi.Char>)>();
 }
 
-final class PtrResult extends ffi.Struct {
-  external ffi.Pointer<ffi.Void> ptr;
-
-  external ffi.Pointer<ffi.Char> error_ptr;
-}
-
 final class StringResult extends ffi.Struct {
   external ffi.Pointer<ffi.Char> ok_ptr;
 
@@ -560,8 +283,4 @@ final class BoolResult extends ffi.Struct {
   external bool boolean;
 
   external ffi.Pointer<ffi.Char> error_ptr;
-}
-
-final class PtrOption extends ffi.Struct {
-  external ffi.Pointer<ffi.Void> ptr;
 }

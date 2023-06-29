@@ -1,55 +1,97 @@
 pub mod public_key;
 pub mod secret_key;
 
-use crate::prelude::*;
+pub use crate::prelude::*;
 use nostr_sdk::{
-    secp256k1::{SecretKey, XOnlyPublicKey},
+    prelude::{FromPkStr, FromSkStr, ToBech32},
     Keys,
 };
+use serde_json::{json, Value};
 
-/// Initialize from secret key.
-/// # Safety
-/// secret_key must be a valid 32-byte secret key
-#[no_mangle]
-pub unsafe extern "C" fn keys_new(secret_key: *mut c_void) -> *mut c_void {
-    let secret_key = *(secret_key as *mut SecretKey);
-    let keys = Keys::new(secret_key);
-    to_raw_ptr(keys)
-}
+// Constants
+const FAILED_TO_DECODE_VALUE: &str = "Failed to decode value";
+const FAILED_TO_ENCODE_JSON: &str = "Failed to encode JSON";
 
-/// Initialize with public key only (no secret key).
-/// # Safety
-/// public_key must be a valid 33-byte public key
-#[no_mangle]
-pub unsafe extern "C" fn keys_from_public_key(public_key: *mut c_void) -> *mut c_void {
-    let public_key = *(public_key as *mut XOnlyPublicKey);
-    let keys = Keys::from_public_key(public_key);
-    to_raw_ptr(keys)
-}
-
-/// Generate a new key pair
-#[no_mangle]
-pub extern "C" fn keys_generate() -> *mut c_void {
-    let keys = Keys::generate();
-    to_raw_ptr(keys)
-}
-
-/// Get the public key
 /// # Safety
 #[no_mangle]
-pub unsafe extern "C" fn keys_get_public_key(keys_ptr: *mut c_void) -> *mut c_void {
-    let keys = &*(keys_ptr as *mut Keys);
+pub unsafe extern "C" fn get_keys_from_sk_str(value: *const c_char) -> StringResult {
+    // Convert the input pointer to a Rust string
+    let value = unsafe {
+        if value.is_null() {
+            return StringResult::err(FAILED_TO_DECODE_VALUE.to_string());
+        }
+        match CStr::from_ptr(value).to_str() {
+            Ok(secret_key) => secret_key,
+            Err(_) => return StringResult::err(FAILED_TO_DECODE_VALUE.to_string()),
+        }
+    };
+
+    // Try to interpret the input as a private key
+    let keys = match Keys::from_sk_str(value) {
+        Ok(keys) => keys,
+        Err(_) => return StringResult::err(FAILED_TO_DECODE_VALUE.to_string()),
+    };
+
+    // Generate the JSON string
+    create_json_string(keys)
+}
+
+/// # Safety
+#[no_mangle]
+pub unsafe extern "C" fn get_keys_from_pk_str(value: *const c_char) -> StringResult {
+    // Convert the input pointer to a Rust string
+    let value = unsafe {
+        if value.is_null() {
+            return StringResult::err(FAILED_TO_DECODE_VALUE.to_string());
+        }
+        match CStr::from_ptr(value).to_str() {
+            Ok(public_key) => public_key,
+            Err(_) => return StringResult::err(FAILED_TO_DECODE_VALUE.to_string()),
+        }
+    };
+
+    // Try to interpret the input as a public key
+    let keys = match Keys::from_pk_str(value) {
+        Ok(keys) => keys,
+        Err(_) => return StringResult::err(FAILED_TO_DECODE_VALUE.to_string()),
+    };
+
+    // Generate the JSON string
+    create_json_string(keys)
+}
+
+fn create_json_string(keys: Keys) -> StringResult {
+    // Retrieve the public and private keys
     let public_key = keys.public_key();
-    to_raw_ptr(public_key)
-}
+    let secret_key = keys.secret_key();
 
-/// Get the secret key
-/// # Safety
-#[no_mangle]
-pub unsafe extern "C" fn keys_get_secret_key(keys_ptr: *mut c_void) -> PtrOption {
-    let keys = &*(keys_ptr as *mut Keys);
-    match keys.secret_key() {
-        Ok(sk) => PtrOption::some(to_raw_ptr(sk)),
-        Err(_) => PtrOption::none(),
+    // Convert the public key to hex and bech32
+    let public_key_hex = public_key.to_string();
+    let public_key_bech32 = public_key.to_bech32().unwrap();
+
+    // Convert the private key to hex and bech32 if it exists, else use null
+    let secret_key_fields = secret_key.ok().map(|sk| {
+        let secret_key_hex = sk.display_secret().to_string();
+        let secret_key_bech32 = sk.to_bech32().unwrap();
+
+        json!({
+            "hex": secret_key_hex,
+            "bech32": secret_key_bech32
+        })
+    });
+
+    // Construct the JSON object
+    let json = json!({
+    "public_key": {
+        "hex": public_key_hex,
+        "bech32": public_key_bech32,
+    },
+    "secret_key": secret_key_fields.unwrap_or(Value::Null)
+    });
+
+    // Convert the JSON object to a string
+    match serde_json::to_string(&json) {
+        Ok(json) => StringResult::ok(json),
+        Err(_) => StringResult::err(FAILED_TO_ENCODE_JSON.to_string()),
     }
 }

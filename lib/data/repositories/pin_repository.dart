@@ -3,12 +3,10 @@ import '../data_souces/native.dart';
 import '../data_souces/pin_local.dart';
 
 class PinRepository {
-  final PinLocalDataSource localDataSource;
-  final NativeDataSource nativeDataSource;
+  final LocalPinDataSource localDataSource;
 
   const PinRepository(
     this.localDataSource,
-    this.nativeDataSource,
   );
 
   Future<Pin?> getPin() {
@@ -16,8 +14,8 @@ class PinRepository {
   }
 
   Future<void> setPin(String pin) async {
-    final salt = nativeDataSource.generateSalt();
-    final hash = nativeDataSource.getPinHash(pin, salt);
+    final salt = generateSalt();
+    final hash = getPinHash(pin, salt);
     await localDataSource.setPinHashSalt(Pin(
       hash: hash,
       salt: salt,
@@ -26,7 +24,7 @@ class PinRepository {
   }
 
   bool checkPin(String value, Pin pin) {
-    final hash = nativeDataSource.getPinHash(value, pin.salt);
+    final hash = getPinHash(value, pin.salt);
     return hash == pin.hash;
   }
 }

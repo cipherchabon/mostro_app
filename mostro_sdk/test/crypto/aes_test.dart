@@ -10,16 +10,16 @@ void main() {
 
     final res = Aes.encrypt(key, data);
     res.when(
-      ok: (data) {
-        final res = Aes.decrypt(key, data);
+      success: (data) {
+        final res = Aes.decrypt(data);
         res.when(
-          ok: (data) {
+          success: (data) {
             expect(data, key);
           },
-          err: (e) => log(e.message),
+          failure: (e) => log(e.message),
         );
       },
-      err: (e) => log(e.message),
+      failure: (e) => log(e.message),
     );
   });
 }

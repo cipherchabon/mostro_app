@@ -2,41 +2,6 @@ use crate::prelude::*;
 use std::ptr;
 
 #[repr(C)]
-pub struct PtrResult {
-    pub ptr: *mut c_void,
-    pub error_ptr: *const c_char,
-}
-
-impl PtrResult {
-    pub fn ok(ptr: *mut c_void) -> Self {
-        Self {
-            ptr,
-            error_ptr: std::ptr::null(),
-        }
-    }
-
-    pub fn err(error: String) -> Self {
-        let error_ptr = CString::new(error).unwrap().into_raw();
-        Self {
-            ptr: std::ptr::null_mut(),
-            error_ptr,
-        }
-    }
-
-    pub fn is_ok(&self) -> bool {
-        !self.ptr.is_null()
-    }
-
-    pub fn is_err(&self) -> bool {
-        !self.error_ptr.is_null()
-    }
-
-    pub fn unwrap(self) -> *mut c_void {
-        self.ptr
-    }
-}
-
-#[repr(C)]
 pub struct StringResult {
     pub ok_ptr: *const c_char,
     pub error_ptr: *const c_char,

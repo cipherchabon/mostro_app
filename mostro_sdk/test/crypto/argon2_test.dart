@@ -38,10 +38,13 @@ void main() {
         r"$argon2id$v=19$m=19456,t=2,p=1$7HZF67IrXPlnJ5b0H7MdAQ$pALJ3I7Q3F/rPsHfhdw6RFM4ngvepFvXsQq/HgUglqA";
     const salt = "7HZF67IrXPlnJ5b0H7MdAQ";
     final res = Argon2.deriveEncryptionKey(key, salt);
-    res.match((value) {
-      expect(value, '7RH5XGiWzGkbo0X3CuOCAFn3Fa8IC2H5m5jQTqhs8Dc');
-    }, (err) {
-      fail(err.message);
-    });
+    res.when(
+      success: (value) {
+        expect(value, '7RH5XGiWzGkbo0X3CuOCAFn3Fa8IC2H5m5jQTqhs8Dc');
+      },
+      failure: (err) {
+        fail(err.message);
+      },
+    );
   });
 }

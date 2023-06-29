@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import 'view/pin/pin_screen.dart';
-import 'view/keys/set_keys_screen.dart';
+import 'view/keys/keys_screen.dart';
 import 'view/splash_screen.dart';
 
 const splashRoutePath = '/splash';
@@ -28,7 +28,7 @@ final authRoutes = [
   GoRoute(
     path: setKeysRoutePath,
     builder: (context, state) {
-      return SetKeysScreen();
+      return KeysScreen();
     },
   ),
 ];

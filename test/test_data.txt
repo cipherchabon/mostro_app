@@ -1,0 +1,48 @@
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+Leading zero bits:         18
+Found matching Nostr public key:
+Hex public key:   000024c81aba593a1788487de5b78e3bcdd6aab9d9c0ed25c1c3d764687a25d8
+Npub public key:  npub1qqqzfjq6hfvn59ugfp77tduw80xad24em8qw6fwpc0tkg6r6yhvqm03cya
+Hex private key:  ec9d30d5f4402d09e4b213092d7b498d6ec4876be2fcd405969174ce7728f3a4
+Nsec private key: nsec1ajwnp405gqksne9jzvyj676f34hvfpmtut7dgpvkj96vuaeg7wjqvctvds
+808 iterations (about 8x10^2 hashes) in 0 seconds. Avg rate 808 hashes/second
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+Leading zero bits:         19
+Found matching Nostr public key:
+Hex public key:   00001b3dc9a5d635b41c960d4cb0f7a3f8f53d667262c1c24d394afb911d9b21
+Hex private key:  39edc51b4dd93eb7553fd9afa078a192902080ed6405f776c0e661d01cfb9a04
+Npub public key:  npub1qqqpk0wf5htrtdqujcx5ev8h50u020txwf3vrsjd8990hyganvss89xf7u
+Nsec private key: nsec188ku2x6dmyltw4flmxh6q79pj2gzpq8dvszlwakquesaq88mngzqa9hz2q
+475767 iterations (about 4x10^5 hashes) in 1 seconds. Avg rate 475767 hashes/second
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+Leading zero bits:         21
+Found matching Nostr public key:
+Hex public key:   000004b7caf1cffa167bc47bbe6ad4167e70589f8ae120cbe865dce0b0eef629
+Hex private key:  4dfa6cf23a9b7ca0ee1c97a1aeb21b9750ef81e44e54e59fcb189b7ecaf190a6
+Npub public key:  npub1qqqqfd72788l59nmc3amu6k5zel8qkyl3tsjpjlgvhwwpv8w7c5sgksh75
+Nsec private key: nsec1fhaxeu36nd72pmsuj7s6avsmjagwlq0yfe2wt87trzdhajh3jznqnmc2s9
+1937348 iterations (about 1x10^6 hashes) in 4 seconds. Avg rate 484337 hashes/second
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+Leading zero bits:         22
+Found matching Nostr public key:
+Hex public key:   000003bc8ce83d085f6342545298b7ccfd7eafc3cadf4c2974687781f2c7c3c4
+Hex private key:  fbf33d181f7bbc474c771ff29465aec2b209e2c0d1b9e8e53aeee39938da776f
+Npub public key:  npub1qqqq80yvaq7sshmrgf299x9hen7hat7ret05c2t5dpmcruk8c0zqg49k2y
+Nsec private key: nsec1l0en6xql0w7ywnrhrlefgedwc2eqnckq6xu73ef6am3ejwx6wahsj8egew
+3189437 iterations (about 3x10^6 hashes) in 7 seconds. Avg rate 455633 hashes/second
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+Leading zero bits:         23
+Found matching Nostr public key:
+Hex public key:   000001f429d5118efd042ca3d47023a5852cd1ae3052687cef0904084669909d
+Hex private key:  1a7c9aba09b5a22b360dbc76fe4e3e167b4bcea28283e0ffdea1813aa4572f63
+Npub public key:  npub1qqqqrapf65gcalgy9j3agupr5kzje5dwxpfxsl80pyzqs3nfjzwsa4lyw7
+Nsec private key: nsec1rf7f4wsfkk3zkdsdh3m0un37zea5hn4zs2p7pl775xqn4fzh9a3s88tgjd
+5444957 iterations (about 5x10^6 hashes) in 13 seconds. Avg rate 418842 hashes/second
+<<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>><<>>
+Leading zero bits:         24
+Found matching Nostr public key:
+Hex public key:   000000e8550bc13ecbf26cf5290455cfa8cc635553b2fb2724f684ac3d47d84e
+Hex private key:  795612e10f67d66f22823f6ed27b9613fd1268e51412a7c1542f53fb7267b272
+Npub public key:  npub1qqqqp6z4p0qnajljdn6jjpz4e75vcc642we0kfey76z2c028mp8qay5n4d
+Nsec private key: nsec109tp9cg0vltx7g5z8ahdy7ukz073y689zsf20s259aflkun8kfeqs3jvaf
+7836745 iterations (about 7x10^6 hashes) in 19 seconds. Avg rate 412460 hashes/second

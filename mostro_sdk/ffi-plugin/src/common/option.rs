@@ -1,23 +1,6 @@
 use crate::prelude::*;
 
 #[repr(C)]
-pub struct PtrOption {
-    pub ptr: *mut c_void,
-}
-
-impl PtrOption {
-    pub fn some(ptr: *mut c_void) -> Self {
-        Self { ptr }
-    }
-
-    pub fn none() -> Self {
-        Self {
-            ptr: std::ptr::null_mut(),
-        }
-    }
-}
-
-#[repr(C)]
 pub struct StringOption {
     pub string: *const c_char,
 }

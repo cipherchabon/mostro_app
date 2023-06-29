@@ -2,33 +2,35 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mostro_sdk/key/keys.dart';
 
 void main() {
-  test('keys generate', () {
-    final keys = Keys.generate();
-    expect(keys.publicKey().toString(), isNotEmpty);
-    expect(keys.secretKey().isSome(), true);
-    expect(keys.secretKey().unwrap().toString(), isNotEmpty);
+  const hexPublicKey =
+      '000024c81aba593a1788487de5b78e3bcdd6aab9d9c0ed25c1c3d764687a25d8';
+  const hexSecretKey =
+      'ec9d30d5f4402d09e4b213092d7b498d6ec4876be2fcd405969174ce7728f3a4';
+  const bench32PublicKey =
+      'npub1qqqzfjq6hfvn59ugfp77tduw80xad24em8qw6fwpc0tkg6r6yhvqm03cya';
+  const bench32PrivateKey =
+      'nsec1ajwnp405gqksne9jzvyj676f34hvfpmtut7dgpvkj96vuaeg7wjqvctvds';
+
+  test('get KeyPair from hexSecretKey', () {
+    final keyPair = KeyPair.fromSecretKey(hexSecretKey);
+    expect(keyPair.publicKey.hex, hexPublicKey);
+    expect(keyPair.publicKey.bench32, bench32PublicKey);
+    expect(keyPair.secretKey!.hex, hexSecretKey);
+    expect(keyPair.secretKey!.bench32, bench32PrivateKey);
   });
 
-  test('keys from secret key', () {
-    final keys = Keys.generate();
-    final sk = keys.secretKey().unwrap();
-    final keys2 = Keys.fromSecretKey(sk);
-    expect(keys2.publicKey().toString(), isNotEmpty);
-    expect(keys2.secretKey().isSome(), true);
-    expect(keys2.secretKey().unwrap().toString(), isNotEmpty);
+  test('get KeyPair from bench32SecretKey', () {
+    final keyPair = KeyPair.fromSecretKey(bench32PrivateKey);
+    expect(keyPair.publicKey.hex, hexPublicKey);
+    expect(keyPair.publicKey.bench32, bench32PublicKey);
+    expect(keyPair.secretKey!.hex, hexSecretKey);
+    expect(keyPair.secretKey!.bench32, bench32PrivateKey);
   });
 
-  test('keys from public key', () {
-    final keys = Keys.generate();
-    final pk = keys.publicKey();
-    final keys2 = Keys.fromPublicKey(pk);
-    expect(keys2.publicKey().toString(), isNotEmpty);
-    expect(keys2.secretKey().isSome(), false);
-  });
-
-  test('keys equality', () {
-    final keys = Keys.generate();
-    final keys2 = Keys.fromSecretKey(keys.secretKey().unwrap());
-    expect(keys, keys2);
+  test('get KeyPair from bench32PublicKey', () {
+    final keyPair = KeyPair.fromPublicKey(bench32PublicKey);
+    expect(keyPair.publicKey.hex, hexPublicKey);
+    expect(keyPair.publicKey.bench32, bench32PublicKey);
+    expect(keyPair.secretKey, null);
   });
 }

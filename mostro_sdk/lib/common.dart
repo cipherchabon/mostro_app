@@ -1,6 +1,5 @@
 import 'dart:ffi';
 
-import 'package:equatable/equatable.dart';
 import 'package:ffi/ffi.dart';
 
 import 'ffi_bindings.dart';
@@ -19,13 +18,36 @@ extension PointerCharExtension on Pointer<Char> {
   }
 }
 
-abstract class NativeObject extends Equatable {
-  final Pointer<Void> ptr;
+/// Base Result class
+/// [S] represents the type of the success value
+/// [E] should be [Exception] or a subclass of it
+sealed class Result<S, E extends Exception> {
+  S unwrap() => (this as Success<S, E>).value;
+  E unwrapErr() => (this as Failure<S, E>).exception;
 
-  const NativeObject(this.ptr);
+  const Result();
 
-  void dispose() {}
+  T when<T>({
+    required T Function(S value) success,
+    required T Function(E exception) failure,
+  }) {
+    return switch (this) {
+      (Success<S, E> ok) => success(ok.value),
+      (Failure<S, E> err) => failure(err.exception),
+    };
+  }
 
-  @override
-  List<Object> get props => [ptr];
+  bool isOk() {
+    return this is Success<S, E>;
+  }
+}
+
+final class Success<S, E extends Exception> extends Result<S, E> {
+  const Success(this.value);
+  final S value;
+}
+
+final class Failure<S, E extends Exception> extends Result<S, E> {
+  const Failure(this.exception);
+  final E exception;
 }

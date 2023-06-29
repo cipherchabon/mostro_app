@@ -1,51 +1,120 @@
-import 'package:mostro_sdk/native_option.dart';
-import 'package:oxidized/oxidized.dart';
+import 'dart:convert';
 
-import '../common.dart';
+import 'package:equatable/equatable.dart';
+import 'package:ffi/ffi.dart';
+import 'package:mostro_sdk/common.dart';
+import 'package:mostro_sdk/native_result.dart';
+
 import '../ffi_bindings.dart';
-import 'public_key.dart';
-import 'secret_key.dart';
 
-class Keys extends NativeObject {
-  // Pointer to the native struct
+class SecretKey extends Equatable {
+  final String hex;
+  final String bench32;
 
-  const Keys._(super.ptr);
+  const SecretKey(this.hex, this.bench32);
 
-  /// Initialize from secret key
-  factory Keys.fromSecretKey(SecretKey sk) {
-    final ptr = bindings.keys_new(sk.ptr);
-    return Keys._(ptr);
+  factory SecretKey.fromMap(Map<String, dynamic> json) {
+    final {'hex': hex, 'bech32': bench32} = json;
+    return SecretKey(hex, bench32);
   }
 
-  /// Initialize from secret key
-  factory Keys.fromPublicKey(PublicKey pk) {
-    final ptr = bindings.keys_from_public_key(pk.ptr);
-    return Keys._(ptr);
+  Map toMap() {
+    return {
+      'hex': hex,
+      'bech32': bench32,
+    };
   }
 
-  /// Generate a new key pair
-  factory Keys.generate() {
-    final keyPtr = bindings.keys_generate();
-    return Keys._(keyPtr);
-  }
-
-  /// Generate a new key pair
-  PublicKey publicKey() {
-    final ptr = bindings.keys_get_public_key(super.ptr);
-    return PublicKey(ptr);
-  }
-
-  /// Get the secret key as a string
-  Option<SecretKey> secretKey() {
-    final option = bindings.keys_get_secret_key(super.ptr).toDartOption();
-    return option.map((ptr) => SecretKey(ptr));
+  static bool validate(String value) {
+    final nativeValue = value.toNative();
+    final res = bindings.validate_secret_key(nativeValue).toDartResult();
+    calloc.free(nativeValue);
+    return res.when(
+      success: (v) => v,
+      failure: (_) => false,
+    );
   }
 
   @override
-  void dispose() {
-    bindings.free_keys_ptr(ptr);
+  String toString() {
+    return 'SecretKey{hex: ${hex.substring(0, 5)}...${hex.substring(hex.length - 5)}, bench32: ${bench32.substring(0, 5)}...${bench32.substring(bench32.length - 5)}}';
   }
 
   @override
-  List<Object> get props => [publicKey(), secretKey()];
+  List<Object?> get props => [hex, bench32];
+}
+
+class PublicKey extends Equatable {
+  final String hex;
+  final String bench32;
+
+  const PublicKey(this.hex, this.bench32);
+
+  factory PublicKey.fromMap(Map<String, dynamic> json) {
+    final {'hex': hex, 'bech32': bench32} = json;
+    return PublicKey(hex, bench32);
+  }
+
+  Map toMap() {
+    return {
+      'hex': hex,
+      'bech32': bench32,
+    };
+  }
+
+  static bool validate(String value) {
+    final nativeValue = value.toNative();
+    final res = bindings.validate_public_key(nativeValue).toDartResult();
+    calloc.free(nativeValue);
+    return res.when(
+      success: (v) => v,
+      failure: (_) => false,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'PublicKey{hex: $hex, bench32: $bench32}';
+  }
+
+  @override
+  List<Object?> get props => [hex, bench32];
+}
+
+class KeyPair extends Equatable {
+  final SecretKey? secretKey;
+  final PublicKey publicKey;
+
+  const KeyPair(this.secretKey, this.publicKey);
+
+  factory KeyPair.fromSecretKey(String value) {
+    final nativeValue = value.toNative();
+    final res = bindings.get_keys_from_sk_str(nativeValue).toDartResult();
+    calloc.free(nativeValue);
+    return res.when(
+      success: (v) => KeyPair.fromMap(jsonDecode(v)),
+      failure: (e) => throw e,
+    );
+  }
+
+  factory KeyPair.fromPublicKey(String value) {
+    final nativeValue = value.toNative();
+    final res = bindings.get_keys_from_pk_str(nativeValue).toDartResult();
+    calloc.free(nativeValue);
+    return res.when(
+      success: (v) => KeyPair.fromMap(jsonDecode(v)),
+      failure: (e) => throw e,
+    );
+  }
+
+  factory KeyPair.fromMap(Map<String, dynamic> json) {
+    final {'secret_key': secretKey, 'public_key': publicKey} = json;
+    return KeyPair(
+      secretKey == null ? null : SecretKey.fromMap(secretKey),
+      PublicKey.fromMap(publicKey),
+    );
+  }
+
+  @override
+  List<Object?> get props => [secretKey, publicKey];
 }

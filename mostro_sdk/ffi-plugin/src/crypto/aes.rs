@@ -12,7 +12,11 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
 pub struct EncryptedData {
-    cyphertext: String,
+    // this is the encrypted data
+    cipher_value: String,
+    // this is the key used to encrypt the data
+    encryption_key: String,
+    // this is the nonce
     nonce: String,
 }
 
@@ -25,6 +29,7 @@ pub struct EncryptedData {
 /// The caller is responsible for:
 /// - Ensuring both `key` and `data` are valid pointers to null-terminated
 ///  C strings.
+/// - key shoud be a base64 encoded string
 /// - Properly freeing the `string` and `error_ptr` fields of the returned
 /// `StringResult` struct on the Dart side.
 ///
@@ -41,6 +46,11 @@ pub unsafe extern "C" fn encrypt(key: *const c_char, data: *const c_char) -> Str
         Err(_) => return StringResult::err("Failed to decode data".to_string()),
     };
 
+    let key = match base64_decode(key) {
+        Ok(key) => key,
+        Err(_) => return StringResult::err("Failed to decode key".to_string()),
+    };
+
     // Check if the key is the correct length
     // AES-GCM-SIV requires a 32-byte (256-bit) key
     if key.len() != 32 {
@@ -48,10 +58,10 @@ pub unsafe extern "C" fn encrypt(key: *const c_char, data: *const c_char) -> Str
     }
 
     // Create a `Key` instance
-    let key = GenericArray::from_slice(key.as_bytes());
+    let key_bytes = GenericArray::from_slice(&key);
 
     // Create a new AES-GCM-SIV instance
-    let cipher = Aes256GcmSiv::new(key);
+    let cipher = Aes256GcmSiv::new(key_bytes);
 
     // Create a new random nonce
     let mut nonce = [0u8; 12]; // GCM-SIV recommends a 12-bytes (96 bits) nonce
@@ -66,7 +76,8 @@ pub unsafe extern "C" fn encrypt(key: *const c_char, data: *const c_char) -> Str
 
     // Create an EncryptedData instance
     let encrypted_data = EncryptedData {
-        cyphertext: base64_encode(ciphertext),
+        cipher_value: base64_encode(ciphertext),
+        encryption_key: base64_encode(key),
         nonce: base64_encode(nonce),
     };
 
@@ -90,19 +101,21 @@ pub unsafe extern "C" fn encrypt(key: *const c_char, data: *const c_char) -> Str
 ///
 /// To free the strings in Dart, you should use `ffi`'s `calloc.free` function.
 #[no_mangle]
-pub unsafe extern "C" fn decrypt(
-    key: *const c_char,
-    encrypted_data_json: *const c_char,
-) -> StringResult {
+pub unsafe extern "C" fn decrypt(encrypted_data_json: *const c_char) -> StringResult {
     // Convert C strings to Rust strings
-    let key = match CStr::from_ptr(key).to_str() {
-        Ok(key) => key,
-        Err(_) => return StringResult::err("Failed to decode key".to_string()),
-    };
+
     let encrypted_data_json = match CStr::from_ptr(encrypted_data_json).to_str() {
         Ok(encrypted_data_json) => encrypted_data_json,
         Err(_) => return StringResult::err("Failed to decode encrypted data".to_string()),
     };
+
+    // Parse EncryptedData from JSON
+    let encrypted_data: EncryptedData = match serde_json::from_str(encrypted_data_json) {
+        Ok(encrypted_data) => encrypted_data,
+        Err(_) => return StringResult::err("Failed to parse encrypted data".to_string()),
+    };
+
+    let key = encrypted_data.encryption_key;
 
     // Validate key length
     if key.len() != 32 {
@@ -115,15 +128,9 @@ pub unsafe extern "C" fn decrypt(
     // Create a new AES-GCM-SIV instance
     let cipher = Aes256GcmSiv::new(key);
 
-    // Parse EncryptedData from JSON
-    let encrypted_data: EncryptedData = match serde_json::from_str(encrypted_data_json) {
-        Ok(encrypted_data) => encrypted_data,
-        Err(_) => return StringResult::err("Failed to parse encrypted data".to_string()),
-    };
-
     // Decode the ciphertext and nonce from base64
-    let ciphertext = match base64_decode(&encrypted_data.cyphertext) {
-        Ok(ciphertext) => ciphertext,
+    let value = match base64_decode(&encrypted_data.cipher_value) {
+        Ok(value) => value,
         Err(_) => return StringResult::err("Failed to decode ciphertext".to_string()),
     };
     let nonce = match base64_decode(&encrypted_data.nonce) {
@@ -140,7 +147,7 @@ pub unsafe extern "C" fn decrypt(
     let nonce = GenericArray::from_slice(&nonce);
 
     // Decrypt the data
-    let value = match cipher.decrypt(nonce, ciphertext.as_ref()) {
+    let value = match cipher.decrypt(nonce, value.as_ref()) {
         Ok(value) => value,
         Err(_) => return StringResult::err("Failed to decrypt data".to_string()),
     };
@@ -167,7 +174,7 @@ mod tests {
         let encrypted_data = unsafe { encrypt(key.as_ptr(), data.as_ptr()) };
         assert!(encrypted_data.is_ok());
 
-        let decrypted_data = unsafe { decrypt(key.as_ptr(), encrypted_data.ok_ptr) };
+        let decrypted_data = unsafe { decrypt(encrypted_data.ok_ptr) };
         assert!(decrypted_data.is_ok());
 
         let decrypted_data = unsafe {
