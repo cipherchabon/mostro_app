@@ -51,7 +51,7 @@ class _ShellScaffoldState extends State<ShellScaffold> {
   }
 
   int get _selectedIndex {
-    final path = GoRouter.of(context).location;
+    final path = GoRouterState.of(context).uri.toString();
     return switch (path) {
       ordersRoutePath => 1,
       chatRoutePath => 2,
@@ -61,7 +61,7 @@ class _ShellScaffoldState extends State<ShellScaffold> {
   }
 
   String get title {
-    final path = GoRouter.of(context).location;
+    final path = GoRouterState.of(context).uri.toString();
     return switch (path) {
       homeRoutePath => 'Mostro',
       ordersRoutePath => 'Orders',
